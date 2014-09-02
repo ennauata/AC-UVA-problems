@@ -10,41 +10,42 @@
 #include <math.h>
 #define MAX 99999 
 
+double max(double a, double b){
+	if(a > b){
+		return a;
+	}
+	else{
+		return b;
+	}
+}
+
 int main(){
 	int n, i;
-	double numb, avg, vec[MAX], error, sum1, sum2, ref;
+	double vec[MAX], rem, sum, res1, res2, avg;
+	double numb;
 	scanf("%d", &n);
 	while(n){
-		avg = 0;
+		sum = 0;
 		for(i = 0; i < n; i++){
 			scanf("%lf", &numb);
-			vec[i] = numb;
-			avg += numb;
+			vec[i] = numb*100;
+			sum += vec[i];
 		}
-		error = avg/n - round((avg/n)*100)/100;
-		avg = round((avg/n)*100)/100;
-		sum1 = 0; 
-		sum2 = 0;
+		avg = sum/n;
+		rem = (int)(sum)%n;
+		res1 = 0;
+		res2 = 0;
 		for(i = 0; i < n; i++){
-			if(vec[i] - avg > 0){
-				sum1 += vec[i] - avg;
+			// Giving
+			if(vec[i]-avg>=0){
+				res1 += vec[i]-ceil(avg);
 			}
+			// Receiving
 			else{
-				sum2 += avg - vec[i];
+				res2 += floor(avg)-vec[i];
 			}
 		}
-		avg /= n;
-		ref = 0;
-		for(i = 0; i < n; i++){
-			if(vec[i] - avg > 0){
-				ref += vec[i] - avg;
-			}
-		}
-		while(sum2 <= sum1){
-			
-			sum2 += 0.01;
-		}
-		printf("$%lf %f\n", sum1, sum2);
+		printf("$%.2lf\n", max(res1, res2)/100);
 		scanf("%d", &n);
 	}
 	return 0;
